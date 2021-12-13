@@ -2,7 +2,16 @@
 Repo has some important points about scyllaDB, frequently used commands and connectivity through spring boot.
 
 ### Some important points of scylla DB
-
+#### Advantages of scylla
+* Wide column datastore (Data is stored in columns and related columns are grouped together as table or column family)
+* High Availability
+* High Performance (Millions of requests per second per node)
+* Scalability
+* Low latency
+* Replacement of cassandra
+#### Replication strategies
+Simple Strategy: It is used for single datacenter or one rack.<br>
+NetworkTopologyStrategy: When you have cluster deployed across multiple data centers.
 
 ### Frequently used scylla DB command
 #### Create keyspace
