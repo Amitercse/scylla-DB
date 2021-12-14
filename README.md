@@ -12,7 +12,7 @@ Repo has some important points about scyllaDB, frequently used commands and conn
 
 #### Replication strategies
 Simple Strategy: It is used for single datacenter or one rack.<br>
-NetworkTopologyStrategy: When you have cluster deployed across multiple data centers.
+NetworkTopologyStrategy: When you have cluster deployed across multiple data centers. Here we can set replication factor for different data centers. For ex- if DC1 has replication factor as 3 and DC2 has 2 respectively then it has replication factor as 5.
 
 #### Consistency level
 In scylla consistency level determines how many nodes must acknowledge read and write operations before it is considered as successful. Below are different consistency levels. Coordinator node sends write or read operations to multiple replicas based on replication factor. But it is not necessary that data should be written to all replicas and all replicas should respond to read operation. Once consistency level is matched then request is honoured. 
@@ -27,8 +27,17 @@ In scylla consistency level determines how many nodes must acknowledge read and 
 
 We can tune consistency level per query as well.
 
+#### Scylla Architecture
+* Scylla doesn't work on master slave model. Each node is treated as equal.
+* Within scylla cluster internode communication is peer to peer hence no single point of failure. 
+* For communication outside of cluster, scylla client will communicate with a single server node called coordinator.
+* Data will be written to which node will be decided based on partition key using consistent hash function.
+* Each node is assigned with a range based. For each partition key has code is computed and then data is placed in the node.
+* Nodes use gossipping protocol to exchange information with each other.
+
 ### Frequently used scylla DB command
 #### Create keyspace
+
 CREATE KEYSPACE test_keyspace WITH replication = {'class': 'SimpleStrategy', 'replication_factor' : 3};<br>
 
 CREATE KEYSPACE test_keyspace WITH replication = {'class': 'NetworkTopologyStrategy', 'replication_factor' : 3}
@@ -38,3 +47,8 @@ CREATE TABLE user_details (user_id text, name text, email text, mobile_no text, 
 
 #### Create global index
 CREATE INDEX user_by_mobile ON user_details (mobile_no);
+
+
+### To be checked
+* Snitching
+* Vnodes
