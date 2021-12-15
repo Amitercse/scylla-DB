@@ -32,8 +32,9 @@ We can tune consistency level per query as well.
 * Within scylla cluster internode communication is peer to peer hence no single point of failure. 
 * For communication outside of cluster, scylla client will communicate with a single server node called coordinator.
 * Data will be written to which node will be decided based on partition key using consistent hash function.
-* Each node is assigned with a range based. For each partition key has code is computed and then data is placed in the node.
+* Each node is assigned with a range based. For each partition key has code is computed and then data is placed in the node. Scylla uses murmur hash function to generate hash of partition key which is of 64-bit length in range from -2^63 to 2^63-1.
 * Nodes use gossipping protocol to exchange information with each other.
+* Scylla uses vnodes concept where each node is divided in multiple vnodes. Before vnode each physical node was having only one range assigned. But after vnode concept, each vnode will have a separate range assigned. It helps in rebuilding the dead node or adding any new node etc.
 
 ### Frequently used scylla DB command
 #### Create keyspace
@@ -50,5 +51,4 @@ CREATE INDEX user_by_mobile ON user_details (mobile_no);
 
 
 ### To be checked
-* Snitching
-* Vnodes
+* Snitches
