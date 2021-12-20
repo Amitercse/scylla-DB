@@ -35,6 +35,18 @@ We can tune consistency level per query as well.
 * Each node is assigned with a range based. For each partition key has code is computed and then data is placed in the node. Scylla uses murmur hash function to generate hash of partition key which is of 64-bit length in range from -2^63 to 2^63-1.
 * Nodes use gossipping protocol to exchange information with each other.
 * Scylla uses vnodes concept where each node is divided in multiple vnodes. Before vnode each physical node was having only one range assigned. But after vnode concept, each vnode will have a separate range assigned. It helps in rebuilding the dead node or adding any new node etc.
+* Scylla uses snitches to identify to which data center node belongs to, or to identify where requests should be rerouted based on network topology.
+
+#### Data modeling in scylla
+* Data modeling in scylla is query based. So first think about application and data and then model your tables.
+* Too small or too large partitions should be avoided. Too large partitions can be checked by - system.large_partitions.
+* Scylla supports three types of collection - list, set and map. List elements are stored by passing inside bracket, set inside curly braces and map also inside curley braces but in key-value pair. Check below link for detail. But we should store small amount of data only in collections as to read one data of collection we need to scan entire collection.
+https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-modeling/topic/common-data-types-and-collections/
+* Scylla provides ttl functionality to remove data automatically once ttl is expired. TTL is measured in seconds and is defined at column level. If column is not updated within defined ttl then it is removed.
+* TTL can de defined at table creation time or insert command or via update command. But ttl is applied at column level.
+* TTL of a column can be retrived using ttl(column_name). Check below doc for more details.
+https://docs.scylladb.com/getting-started/time-to-live/
+* 
 
 ### Frequently used scylla DB command
 #### Create keyspace
@@ -50,5 +62,3 @@ CREATE TABLE user_details (user_id text, name text, email text, mobile_no text, 
 CREATE INDEX user_by_mobile ON user_details (mobile_no);
 
 
-### To be checked
-* Snitches
