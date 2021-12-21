@@ -46,7 +46,16 @@ https://university.scylladb.com/courses/data-modeling/lessons/advanced-data-mode
 * TTL can de defined at table creation time or insert command or via update command. But ttl is applied at column level.
 * TTL of a column can be retrived using ttl(column_name). Check below doc for more details.
 https://docs.scylladb.com/getting-started/time-to-live/
-* 
+
+#### UDT in scylla
+* Scylla supports UDT and UDT is created using type.
+* We should have UDT as frozen to make sure that entire value is updated for any update and no partial update.
+https://docs.scylladb.com/getting-started/types/#user-defined-types
+
+#### Materialized views
+* Materialized views are global indexes. When materialized view is declared then a new table gets created.
+* Reads from materialized view is as efficient as in regular tables but writes are slower because data needs to be committed to regular table as well as to materialzed view and also consistency between them needs to be maintained.
+* Materlized views must have all columns of primary key of base table. Also it can have at most one column which is not part of primary key of base table.
 
 ### Frequently used scylla DB command
 #### Create keyspace
