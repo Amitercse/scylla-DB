@@ -56,6 +56,8 @@ https://docs.scylladb.com/getting-started/types/#user-defined-types
 * Materialized views are global indexes. When materialized view is declared then a new table gets created.
 * Reads from materialized view is as efficient as in regular tables but writes are slower because data needs to be committed to regular table as well as to materialzed view and also consistency between them needs to be maintained.
 * Materlized views must have all columns of primary key of base table. Also it can have at most one column which is not part of primary key of base table.
+* If from base table or materialzed views, we want to search based on column which is not part of primary key then add 'allow filtering' with the query. It will have performance impact. 
+* While creating materialized views we can select particular columns as well rather than choosing all columns.
 
 ### Frequently used scylla DB command
 #### Create keyspace
